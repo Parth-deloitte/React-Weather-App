@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./WeatherDetails.css";
 import { WeatherData } from "../weatherTypes";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import axios from "axios";
 import vector from "../../assets/Vector.png";
 import degree from "../../assets/degree.png";
-import { useDispatch } from "react-redux";
+
 import AddToList from "./AddToList";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -36,7 +36,7 @@ ChartJS.register(
 const WeatherDetails: React.FC = () => {
   const { name } = useParams<{ name?: string }>();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const dispatch = useDispatch();
+
   const [sunrise, setSunrise] = useState(0);
   const [sunset, setSunset] = useState(0);
   const [lengthOfDay, setLengthOfDay] = useState("");
@@ -190,12 +190,14 @@ const WeatherDetails: React.FC = () => {
     <>
       <div className="weather-details-container">
         <div className="list-container">
-          <div className="backbutton" onClick={handleGoBack}>
-            <FontAwesomeIcon icon={faAngleLeft} className="less-than" />
-            <a style={{ textDecoration: "none", color: "#0170FE" }} href="/">
-              BACK
-            </a>
-          </div>
+          <Link to="/weatherApp">
+            <div className="backbutton">
+              <FontAwesomeIcon icon={faAngleLeft} className="less-than" />
+              <a style={{ textDecoration: "none", color: "#0170FE" }} href="/">
+                BACK
+              </a>
+            </div>
+          </Link>
           <AddToList name={weatherData.name} weatherData={weatherData} />
         </div>
         <div className="header-details">
