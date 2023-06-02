@@ -11,6 +11,8 @@ import { WeatherData } from "../weatherTypes";
 import WeatherCard from "./WeatherCard";
 
 let cities: string[] = [
+  "Mumbai",
+  "Bangalore",
   // Add more initial city names as needed
 ];
 const WeatherApp = () => {

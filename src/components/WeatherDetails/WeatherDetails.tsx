@@ -179,9 +179,6 @@ const WeatherDetails: React.FC = () => {
       },
     },
   };
-  const handleGoBack = () => {
-    window.history.back(); // Navigate back to the previous page in browser history
-  };
 
   const temperatureInCelsius = Math.round(weatherData.main.temp - 273.15);
   const imgUrl = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;

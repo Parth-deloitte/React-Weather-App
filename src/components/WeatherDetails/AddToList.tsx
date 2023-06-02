@@ -18,7 +18,7 @@ const AddToListButton: React.FC<AddToListButtonProps> = ({
 }) => {
   const [added, setAdded] = useState(false);
   const dispatch = useDispatch();
-
+  console.log(weatherData);
   const handleAddToList = () => {
     dispatch(
       addCityName({
