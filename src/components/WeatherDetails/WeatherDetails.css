@@ -1,9 +1,29 @@
 .weather-details-container {
-  margin-top: -6%;
+  margin-top: -4%;
+  padding-left: 30px;
+  padding-right: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.list-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.backbutton {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.less-than {
+  margin-right: 10px;
 }
 .city-weather-img {
   height: 123px;
@@ -81,7 +101,7 @@
 }
 .footer-details {
   width: 55%;
-  min-width: 800px;
+  min-width: 830px;
   height: 304px;
   border: 1px solid #0000001a;
   stroke: Solid rgba(0, 0, 0, 0.1);
