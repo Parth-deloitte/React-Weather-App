@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./WeatherDetails.css";
-import { WeatherData } from "../weatherTypes";
-import { Link, useParams } from "react-router-dom";
+import { City, WeatherData } from "../weatherTypes";
 
 import axios from "axios";
 import vector from "../../assets/Vector.png";
 import degree from "../../assets/degree.png";
-
-import AddToList from "./AddToList";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 import {
   Chart as ChartJS,
@@ -23,7 +19,6 @@ import {
 
 import "chartjs-adapter-date-fns";
 import { Line } from "react-chartjs-2";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 ChartJS.register(
   LineElement,
@@ -33,8 +28,11 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const WeatherDetails: React.FC = () => {
-  const { name } = useParams<{ name?: string }>();
+interface Props {
+  city: City | string;
+  onWeatherDataRecieved?: (data: WeatherData) => void;
+}
+const WeatherDetails: React.FC<Props> = ({ city, onWeatherDataRecieved }) => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   const [sunrise, setSunrise] = useState(0);
@@ -44,13 +42,17 @@ const WeatherDetails: React.FC = () => {
   const [daylightRemaining, setDaylightRemaining] = useState("");
   const [rainPercentage, setRainPercentage] = useState(0);
   const [currentTime, setCurrentTime] = useState("");
-  console.log(weatherData);
-  const fetchWeatherData = async (cityId: String) => {
+  //console.log(weatherData);
+  const fetchWeatherData = async (cityId: String | undefined) => {
     try {
       const response = await axios.get<WeatherData>(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityId}&appid=f5427a0f5207b76cb82078bf8d15c9cb`
       );
 
+      //checking if we recieved functional prop
+      if (onWeatherDataRecieved) {
+        onWeatherDataRecieved(response.data);
+      }
       setWeatherData(response.data);
 
       setSunrise(response.data.sys.sunrise);
@@ -90,12 +92,25 @@ const WeatherDetails: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(name);
+    //console.log(city.cityName);
     // const cityId = parseInt(id ?? "", 10); // Use empty string as default value
-    if (name !== undefined) {
-      fetchWeatherData(name);
+
+    if (typeof city === "string") {
+      // Handle string type
+      fetchWeatherData(city);
+    } else if (
+      typeof city === "object" &&
+      city !== null &&
+      city !== undefined &&
+      "cityName" in city
+    ) {
+      // Handle City type
+
+      const cityName: string | undefined = city.cityName;
+
+      fetchWeatherData(cityName);
     }
-  }, [name]);
+  }, []);
 
   useEffect(() => {
     const calculateDaylight = () => {
@@ -186,17 +201,6 @@ const WeatherDetails: React.FC = () => {
   return (
     <>
       <div className="weather-details-container">
-        <div className="list-container">
-          <Link to="/weatherApp">
-            <div className="backbutton">
-              <FontAwesomeIcon icon={faAngleLeft} className="less-than" />
-              <a style={{ textDecoration: "none", color: "#0170FE" }} href="/">
-                BACK
-              </a>
-            </div>
-          </Link>
-          <AddToList name={weatherData.name} weatherData={weatherData} />
-        </div>
         <div className="header-details">
           <img
             className="city-weather-img"
@@ -220,7 +224,7 @@ const WeatherDetails: React.FC = () => {
           </div>
           <div className="pressure-details">
             <p>PRESSURE</p>
-            <p>963</p>
+            <p>{weatherData.main.pressure}</p>
           </div>
           <div className="rain-details">
             <p>%RAIN</p>
@@ -228,7 +232,7 @@ const WeatherDetails: React.FC = () => {
           </div>
           <div className="humidity-details">
             <p>HUMIDITY</p>
-            <p>22</p>
+            <p>{weatherData.main.humidity}</p>
           </div>
         </div>
 

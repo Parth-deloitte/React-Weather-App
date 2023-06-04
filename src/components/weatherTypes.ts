@@ -1,3 +1,9 @@
+import { WeatherReducerState } from "./WeatherRedux/reducers/weather-reducer";
+
+export interface City {
+  cityName: string | undefined;
+}
+
 export interface Weather {
   id: number;
   main: string;
@@ -19,4 +25,8 @@ export interface WeatherData {
     "1h": number;
   };
   // Add other properties you need from the weather API response
+}
+
+export interface RootState {
+  weatherReducer: WeatherReducerState;
 }

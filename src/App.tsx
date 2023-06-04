@@ -4,8 +4,9 @@ import "./App.css";
 import TopNav from "./components/TopNav/TopNav";
 import WeatherApp from "./components/Dashboard/WeatherApp";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import WeatherDetails from "./components/WeatherDetails/WeatherDetails";
-import { store } from "./components/Redux/store";
+
+import store from "./components/WeatherRedux/store";
+import WishList from "./components/WeatherDetails/WishList";
 function App() {
   return (
     <div className="App">
@@ -14,7 +15,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<WeatherApp />} />
-            <Route path="/weather-details/:name" element={<WeatherDetails />} />
+            <Route path="/weather-details/:name" element={<WishList />} />
             <Route path="/weatherApp" element={<WeatherApp />} />
           </Routes>
         </Router>
