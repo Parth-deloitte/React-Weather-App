@@ -35,6 +35,7 @@ const WeatherApp: React.FC<WeatherAppProps> = ({
   const [reduxDataLength, setreduxDataLength] = useState<number>(
     reduxWeatherData.length
   );
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -62,20 +63,7 @@ const WeatherApp: React.FC<WeatherAppProps> = ({
       setWeatherData(response.data);
     } catch (error) {
       console.error("Error fetching weather data:", error);
-      setWeatherData({
-        name: "",
-        weather: [],
-        main: { temp: 0, humidity: 0, pressure: 0 },
-        sys: {
-          sunrise: 0,
-          sunset: 0,
-        },
-
-        timezone: 0,
-        rain: {
-          "1h": 0,
-        },
-      });
+      setWeatherData(null);
     }
   };
 
